@@ -1,0 +1,48 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    
+    
+}
+
+.cation_container {
+    height: auto;
+}
+
+.cation_txt {
+    margin-top: 8rem;
+    text-align: center;
+    font-size: 1.35rem;
+}
+
+.cation_txt p{
+    margin-top: 1.5rem;
+    font-size: 18px;
+}
+
+.cation_conten {
+    margin: 4rem 4rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.cation_sum_txt {
+    display: grid;
+    gap: 1rem;
+    text-align: center;
+    font-size: 1.15rem;
+    margin: 2rem 0;
+}
+
+.cation_sum_txt p{
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.cation_Item img{
+    width: 98%;
+}
+
+
