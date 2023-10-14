@@ -53,6 +53,22 @@ if(strlen($_SESSION['login'])==0) {
                      </div>
                   </div>
                </div>
+               <a href="absent-today.php">
+                  <div class="col-lg-2 col-md-2 col-sm-6">
+                     <div class="card-box widget-box-one text-center">
+                     <i class="bi bi-list-nested mdi  widget-one-icon"></i>
+                        <!-- <i class="mdi mdi-chart-areaspline widget-one-icon"></i> -->
+                        <div class="wigdet-one-content">
+                           <p class="m-0 text-secondary" title="Statistics">TODAY</p>
+                           <?php
+                            $sql_sm=mysqli_query($con, "SELECT * FROM sendmail1 WHERE status ='YES' and datestart<='$laosDateT' and dateEnd >='$laosDateT'");
+                            $rowcount_sm=mysqli_num_rows($sql_sm);
+                           ?>
+                           <h2><?php echo htmlentities($rowcount_sm); ?> <small></small></h2>
+                        </div>
+                     </div>
+                  </div>
+               </a>
 
                <a href="manage-categories.php">
                   <div class="col-lg-2 col-md-2 col-sm-6">
@@ -79,6 +95,20 @@ if(strlen($_SESSION['login'])==0) {
                            $countposts = mysqli_num_rows($query);
                            ?>
                            <h2><?php echo htmlentities($countposts); ?> <small></small></h2>
+                        </div>
+                     </div>
+                  </div>
+               </a>
+               <a href="list-contact-pending.php">
+                  <div class="col-lg-2 col-md-2 col-sm-6">
+                     <div class="card-box widget-box-one text-center">
+                        <i class="mdi mdi-layers widget-one-icon"></i>
+                        <div class="wigdet-one-content">
+                           <p class="m-0 text-secondary" title="User This Month">Pending</p>
+                           <?php $query = mysqli_query($con, "select * from sendmail1 where status=''");
+                           $countposts = mysqli_num_rows($query);
+                           ?>
+                           <h2 class="text-danger"><?php echo htmlentities($countposts); ?> <small></small></h2>
                         </div>
                      </div>
                   </div>

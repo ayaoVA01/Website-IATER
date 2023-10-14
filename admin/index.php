@@ -9,17 +9,21 @@ if (isset($_POST['login'])) {
     $uname = $_POST['username'];
     $password = md5($_POST['password']);
     // Fetch data from database on the basis of username/email and password
-    $sql = mysqli_query($con, "SELECT AdminUserName,AdminEmailId,AdminPassword,userType FROM tbladmin WHERE (AdminUserName='$uname' && AdminPassword='$password')");
+    $sql = mysqli_query($con, "SELECT AdminUserName,AdminEmailId,AdminPassword,userType,id FROM tbladmin WHERE (AdminUserName='$uname' && AdminPassword='$password')");
     $num = mysqli_fetch_array($sql);
     if ($num > 0) {
         // $_SESSION['login'] = $_POST['username'];
-        // $_SESSION['utype'] = $num['userType'];
+        $_SESSION['utype'] = $num['userType'];
         // echo "<script type='text/javascript'> document.location = 'dashboard.php'; </script>";
         if($num['userType']==1){
             $_SESSION['login'] = $_POST['username'];
+            $_SESSION['utype'] = $num['userType'];
+            $_SESSION['u_id'] = $num['id'];
             echo "<script type='text/javascript'> document.location = 'dashboard.php'; </script>";
         }else{
             $_SESSION['user_login'] = $_POST['username'];
+            $_SESSION['utype'] = $num['userType'];
+            $_SESSION['u_id'] = $num['id'];
             echo "<script type='text/javascript'> document.location = '../staff/staff-dashbord.php'; </script>";
         }
     } else {

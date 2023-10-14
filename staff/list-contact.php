@@ -7,7 +7,9 @@
    header('location:../admin/index.php');
    }
    else{
-   
+   $id = $_SESSION['u_id'];
+
+
    if($_GET['action']='del')
    {
    $postid=intval($_GET['pid']);
@@ -35,16 +37,16 @@
       <div class="row">
          <div class="col-xs-12">
             <div class="page-title-box">
-               <h4 class="page-title">Manage Posts </h4>
+               <h4 class="page-title">History contact</h4>
                <ol class="breadcrumb p-0 m-0">
                   <li>
                      <a href="#">Admin</a>
                   </li>
                   <li>
-                     <a href="#">Posts</a>
+                     <a href="#">new contact</a>
                   </li>
                   <li class="active">
-                     Manage Post  
+                     History contact 
                   </li>
                </ol>
                <div class="clearfix"></div>
@@ -60,6 +62,8 @@
                      <thead>
                         <tr>
                            <th>Title</th>
+                           
+                         
                            <th>Date time</th>
                            <th>Status</th>
                            <th>Action</th>
@@ -67,7 +71,7 @@
                      </thead>
                      <tbody>
                         <?php
-                           $query=mysqli_query($con,"select tblposts.id as postid,tblposts.PostTitle as title,tblcategory.CategoryName as category,tblsubcategory.Subcategory as subcategory from tblposts left join tblcategory on tblcategory.id=tblposts.CategoryId left join tblsubcategory on tblsubcategory.SubCategoryId=tblposts.SubCategoryId where tblposts.Is_Active=1 ");
+                           $query=mysqli_query($con,"SELECT * FROM sendmail1 WHERE staff_id=$id order by -id  ");
                            $rowcount=mysqli_num_rows($query);
                            if($rowcount==0)
                            {
@@ -82,12 +86,30 @@
                               while($row=mysqli_fetch_array($query))
                               {
                               ?>
+                              
                         <tr>
-                           <td><?php echo htmlentities($row['title']);?></td>
-                           <td><?php echo htmlentities($row['category'])?></td>
-                           <td><?php echo htmlentities($row['subcategory'])?></td>
-                           <td><a  class="btn btn-primary btn-sm" ><i class="bi bi-eye"></i></a> 
-                              <!-- &nbsp;<a class="btn btn-danger btn-sm" href="manage-posts.php?pid=<?php echo htmlentities($row['postid']);?>&&action=del" onclick="return confirm('Do you reaaly want to delete ?')"> <i class="fa fa-trash-o"></i></a>  -->
+                           <?php if($row['status']=='NO'){ ?>
+                              <td class="text-danger col-lg-8"><?php echo substr($row['message'],0,80);?>...</td>
+                              <td class="text-danger"><?php echo htmlentities($row['time'])?></td>
+                              <td class=" bg-danger text-center">  <?php echo htmlentities($row['status'])?></td>
+                              <td><a href="view-contact.php?u_id=<?php echo htmlentities($row['id']);?>"  class="btn btn-primary btn-sm" ><i class="bi bi-eye"></i></a> 
+
+                              <?php }?>
+
+                              <?php if($row['status']=='YES'){ ?>
+                              <td class="col-lg-8"><?php echo substr($row['message'],0,80);?>...</td>
+                              <td><?php echo htmlentities($row['time'])?></td>
+                              <td class="bg-primary text-center"><?php echo htmlentities($row['status'])?></td>
+                              <td><a href="view-contact.php?u_id=<?php echo htmlentities($row['id']);?>"  class="btn btn-primary btn-sm" ><i class="bi bi-eye"></i></a> 
+
+                              <?php }?>
+                              <?php if($row['status']==''){ ?>
+                              <td class="col-lg-8"><?php echo substr($row['message'],0,80);?>...</td>
+                              <td><?php echo htmlentities($row['time'])?></td>
+                              <td class="bg-warning text-center"><?php echo htmlentities($row['status'])?> pending...</td>
+                              <td><a href="view-contact.php?u_id=<?php echo htmlentities($row['id']);?>"  class="btn btn-primary btn-sm" ><i class="bi bi-eye"></i></a> 
+
+                              <?php }?>
                            </td>
                         </tr>
                         <?php } }?>

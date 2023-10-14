@@ -12,11 +12,22 @@
                             <?php if ($_SESSION['utype'] = '2') : ?>
 
                                 <li class="has_sub">
-                                <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-newspaper"></i> <span> Posts (News) </span> <span class="menu-arrow"></span></a>
+                                <a href="javascript:void(0);" class="waves-effect"><i class="mdi mdi-newspaper"></i> <span>Contact (Chat) </span> <span class="menu-arrow"></span></a>
                                 <ul class="list-unstyled">
                                     <li><a href="new-contact.php">New Contact</a></li>
                                     <li><a href="list-contact.php">Contact List</a></li>
                                     <li><a href="pending.php">Pending</a></li>
+                                </ul>
+                            </li>
+                            <?php endif; ?>
+                            <?php if ($_SESSION['utype'] = '2') : ?>
+
+                                <li class="has_sub">
+                                <a href="javascript:void(0);" class="waves-effect"><i class="bi bi-journal-text"></i> <span>Absenting</span> <span class="menu-arrow"></span></a>
+                                <ul class="list-unstyled">
+                                    
+                                    <li><a href="absent-today.php">Today</a></li>
+                                    <li><a href="absent-list.php">Absent-List</a></li>
                                 </ul>
                             </li>
                             <?php endif; ?>

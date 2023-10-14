@@ -70,13 +70,15 @@
 
                     </ul>
                     <!-- Right(Notification) -->
+                   
                     <ul class="nav navbar-nav navbar-right">
-
-
-                        <li class="dropdown user-box">
-                            <a href="" class="dropdown-toggle waves-effect user-link" data-toggle="dropdown" aria-expanded="true">
+                       <li class="dropdown user-box">
+                            
+                            <a href="" class="dropdown-toggle waves-effect user-link " data-toggle="dropdown" aria-expanded="true">
+                            
                                 <img src="../admin/assets/images/users/avatar-1.jpg" alt="user-img" class="img-circle user-img">
-                            </a>
+                            </a> 
+                            
 
                             <ul class="dropdown-menu dropdown-menu-right arrow-dropdown-menu arrow-menu-right user-list notify-list">
 
@@ -87,7 +89,8 @@
                         </li>
 
                     </ul> <!-- end navbar-right -->
-
+                    
+                     
                 </div><!-- end container -->
             </div><!-- end navbar -->
         </div>

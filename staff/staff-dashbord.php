@@ -5,6 +5,13 @@ error_reporting(0);
 if (strlen($_SESSION['user_login']) == 0) {
    header('location:../admin/index.php');
 } else {
+$id = $_SESSION['u_id'];
+
+//time laos
+date_default_timezone_set('Asia/Vientiane');
+$laosDateTime = new DateTime();
+$laosDateT = $laosDateTime->format('Y-m-d');
+
 ?>
    <?php include('includes/topheader.php'); ?>
    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
@@ -23,15 +30,13 @@ if (strlen($_SESSION['user_login']) == 0) {
                   <div class="page-title-box">
                      <h4 class="page-title">Staff Dashboard</h4>
                      <ol class="breadcrumb p-0 m-0">
-                        <li>
-                           <a href="#">NewsPortal</a>
-                        </li>
-                        <li>
-                           <a href="#">Admin</a>
-                        </li>
-                        <li class="active">
-                           Dashboard
-                        </li>
+                     <?php 
+                        $user =mysqli_query($con, "SELECT AdminUserName FROM tbladmin WHERE id=$id ");
+                        $rows =mysqli_fetch_array($user)
+                    ?>
+                     <li ><?php echo htmlentities($rows['AdminUserName']);?></li>
+
+                    <li class="active p-4">dashboard</li>
                      </ol>
                      <div class="clearfix"></div>
                   </div>
@@ -39,15 +44,30 @@ if (strlen($_SESSION['user_login']) == 0) {
             </div>
             <!-- end row -->
             <div class="row">
-               
+            <a href="absent-today.php">
+                  <div class="col-lg-2 col-md-2 col-sm-6">
+                     <div class="card-box widget-box-one text-center">
+                     <i class="bi bi-list-nested mdi  widget-one-icon"></i>
+                        <!-- <i class="mdi mdi-chart-areaspline widget-one-icon"></i> -->
+                        <div class="wigdet-one-content">
+                           <p class="m-0 text-secondary" title="Statistics">TODAY</p>
+                           <?php
+                            $sql_sm=mysqli_query($con, "SELECT * FROM sendmail1 WHERE status ='YES' and datestart<='$laosDateT' and dateEnd >='$laosDateT'");
+                            $rowcount_sm=mysqli_num_rows($sql_sm);
+                           ?>
+                           <h2><?php echo htmlentities($rowcount_sm); ?> <small></small></h2>
+                        </div>
+                     </div>
+                  </div>
+               </a>
 
-               <a href="manage-categories.php">
+               <a href="list-contact.php">
                   <div class="col-lg-2 col-md-2 col-sm-6">
                      <div class="card-box widget-box-one text-center">
                         <i class="mdi mdi-chart-areaspline widget-one-icon"></i>
                         <div class="wigdet-one-content">
                            <p class="m-0 text-secondary" title="Statistics">history Contact</p>
-                           <?php $query = mysqli_query($con, "select * from tblcategory where Is_Active=1");
+                           <?php $query = mysqli_query($con, "select * from sendmail1 where staff_id=$id");
                            $countcat = mysqli_num_rows($query);
                            ?>
                            <h2><?php echo htmlentities($countcat); ?> <small></small></h2>
@@ -56,13 +76,13 @@ if (strlen($_SESSION['user_login']) == 0) {
                   </div>
                </a>
                <!-- end col -->
-               <a href="manage-posts.php">
+               <a href="pending.php">
                   <div class="col-lg-2 col-md-2 col-sm-6">
                      <div class="card-box widget-box-one text-center">
                         <i class="mdi mdi-layers widget-one-icon"></i>
                         <div class="wigdet-one-content">
                            <p class="m-0 text-secondary" title="User This Month">Pending</p>
-                           <?php $query = mysqli_query($con, "select * from tblposts where Is_Active=1");
+                           <?php $query = mysqli_query($con, "SELECT * from sendmail1 where staff_id=$id and status=''");
                            $countposts = mysqli_num_rows($query);
                            ?>
                            <h2><?php echo htmlentities($countposts); ?> <small></small></h2>
@@ -70,16 +90,19 @@ if (strlen($_SESSION['user_login']) == 0) {
                      </div>
                   </div>
                </a>
-               <a href="manage-subcategories.php">
-                  <div class="col-lg-4 col-md-4 col-sm-6">
-                     <div class="card-box widget-box-one text-center">
-                        <i class="mdi mdi-layers widget-one-icon"></i>
-                        <div class="wigdet-one-content">
-                           <p class="m-0 text-secondary" title="User This Month">Listed Subcategories</p>
-                           <?php $query = mysqli_query($con, "select * from tblsubcategory where Is_Active=1");
+
+               <?php $query = mysqli_query($con, "SELECT * from sendmail1 where status='NO'");
                            $countsubcat = mysqli_num_rows($query);
                            ?>
-                           <h2><?php echo htmlentities($countsubcat); ?> <small></small></h2>
+
+               <a href="new-contact.php">
+                  <div class="col-lg-4 col-md-4 col-sm-6">
+                     <div class="card-box  widget-box-one text-center">
+                     <i class="bi mdi bi-plus-circle widget-one-icon"></i>
+                        <div class="wigdet-one-content">
+                           <p class="m-0 text-secondary" title="User This Month">ADD</p>
+                           
+                           <!-- <h2><?php echo htmlentities($countsubcat); ?> <small></small></h2> -->
                         </div>
                      </div>
                   </div>
@@ -88,63 +111,57 @@ if (strlen($_SESSION['user_login']) == 0) {
 
             </div>
             <!-- end row -->
+           
             <div class="row">
-               <!--  <a href="trash-posts.php">
-               <div class="col-lg-4 col-md-4 col-sm-6">
-                  <div class="card-box widget-box-one">
-                     <i class="mdi mdi-layers widget-one-icon"></i>
-                     <div class="wigdet-one-content">
-                        <p class="m-0 text-uppercase font-600 font-secondary text-overflow" title="User This Month">Trash News</p>
-                        <?php $query = mysqli_query($con, "select * from tblposts where Is_Active=0");
-                        $countposts = mysqli_num_rows($query);
-                        ?>
-                        <h2><?php echo htmlentities($countposts); ?> <small></small></h2>
-                     </div>
-                  </div>
-               </div>
-               </a> -->
-            </div>
-            <div class="col-sm-12">
-               <div class="card-box">
-                  <h2>Recent News Post</h2>
-                  <div class="table-responsive">
-                     <table class="table table-bordered" id="example">
-                        <thead>
-                           <tr>
-                              <th>Title</th>
-                              <th>Category</th>
-                              <th>Subcategory</th>
-
-                           </tr>
-                        </thead>
-                        <tbody>
-                           <?php
-                           $query = mysqli_query($con, "select tblposts.id as postid,tblposts.PostTitle as title,tblcategory.CategoryName as category,tblsubcategory.Subcategory as subcategory from tblposts left join tblcategory on tblcategory.id=tblposts.CategoryId left join tblsubcategory on tblsubcategory.SubCategoryId=tblposts.SubCategoryId where tblposts.Is_Active=1 ");
-                           $rowcount = mysqli_num_rows($query);
-                           if ($rowcount == 0) {
-                           ?>
+               <div class="col-sm-12">
+                  <div class="card-box">
+                     <div class="table-responsive">
+                        <table class="table table-bordered" id="example">
+                           <thead>
+                              <tr>
+                                 <th>Title</th>
+                                 <th>Date time</th>
+                                 <th>Status</th>
+                                 <th>Action</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <?php
+                                 $query=mysqli_query($con,"SELECT * FROM sendmail1 WHERE staff_id=$id order by -id");
+                                 $rowcount=mysqli_num_rows($query);
+                                 if($rowcount==0)
+                                 {
+                                 ?>
                               <tr>
                                  <td colspan="4" align="center">
                                     <h3 style="color:red">No record found</h3>
                                  </td>
                               <tr>
-                                 <?php
-                              } else {
-                                 while ($row = mysqli_fetch_array($query)) {
-                                 ?>
+                                 <?php 
+                                    } else {
+                                    while($row=mysqli_fetch_array($query))
+                                    {
+                                    ?>
+                                    
                               <tr>
-                                 <td><?php echo htmlentities($row['title']); ?></td>
-                                 <td><?php echo htmlentities($row['category']) ?></td>
-                                 <td><?php echo htmlentities($row['subcategory']) ?></td>
+                                 
 
+                                    <?php if($row['status']=='YES'){ ?>
+                                    <td class="col-lg-8"><?php echo substr($row['message'],0,80);?>...</td>
+                                    <td><?php echo htmlentities($row['time'])?></td>
+                                    <td class="bg-primary text-center"><?php echo htmlentities($row['status'])?></td>
+                                    <td><a href="view-contact.php?u_id=<?php echo htmlentities($row['id']);?>"  class="btn btn-primary btn-sm" ><i class="bi bi-eye"></i></a> 
+                                    <?php }?>
+                                    
+                                 </td>
                               </tr>
-                        <?php }
-                              } ?>
-                        </tbody>
-                     </table>
+                              <?php } }?>
+                           </tbody>
+                        </table>
+                     </div>
                   </div>
                </div>
-            </div>
+      </div>
          </div>
          <!-- container -->
       </div>

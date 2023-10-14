@@ -54,6 +54,27 @@
                                     <li><a href="manage-comments.php">Approved Comments</a></li>
                                 </ul>
                             </li>
+                            <?php if ($_SESSION['utype'] = '2') : ?>
+
+                                <li class="has_sub">
+                                <a href="javascript:void(0);" class="waves-effect"><i class="bi bi-chat-left-dots-fill"></i> <span>Contact (Chat) </span> <span class="menu-arrow"></span></a>
+                                <ul class="list-unstyled">
+                                    
+                                    <li><a href="list-contact.php">Staff List</a></li>
+                                    <li><a href="list-contact-pending.php">Pending</a></li>
+                                </ul>
+                                </li>
+                                <?php endif; ?>
+                                <?php if ($_SESSION['utype'] = '2') : ?>
+
+                                <li class="has_sub">
+                                <a href="javascript:void(0);" class="waves-effect"><i class="bi bi-journal-text"></i> <span>Absenting</span> <span class="menu-arrow"></span></a>
+                                <ul class="list-unstyled">
+                                    <li><a href="absent-admin-today.php">Today</a></li>
+                                    <li><a href="absent-admin-list.php">Staff List</a></li>
+                                </ul>
+                                </li>
+                                <?php endif; ?>
                             <li class="has_sub">
                                 <a href="javascript:void(0);" class="waves-effect" style="display: flex; align-items: center; gap: 2rem;">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23" style="fill: #777;transform: msFilter;">
